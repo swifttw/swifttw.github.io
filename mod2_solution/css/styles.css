@@ -1,0 +1,82 @@
+
+@media  (min-width: 992px){
+	.column_l_3{
+    width: 33.3%;
+    float: left;
+  }
+}
+@media  (max-width: 991px) and (min-width: 768px){
+  .column_m_2, .column_m_1 {
+    float: left;
+  }
+	.column_m_2{
+    width: 50%;
+  }
+  .column_m_1{
+    width: 100%;
+  }
+
+}
+@media  (max-width: 767px){
+	.column_s_1{
+    width: 100%;
+    float: left;
+ }
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  margin: 10px; 
+}
+
+h1 {
+  text-align: center;
+  font-size: 175%
+}
+
+.dishcontainer {
+  height:210px;
+  margin: 10px;
+}
+
+.dish {
+  border: 1px solid #000000;
+  width : 100%;
+  height: 100%;
+  background-color: #C0C0C0;
+}
+
+.dishtype {
+  border: 1px solid black;
+  width : 100px;
+  height: 30px;
+  position: relative;
+  margin-left: auto;
+  margin-right:-1px;
+  margin-top: -1px;
+  text-align: center;
+  line-height: 30px;
+  color:black;
+  font-size: 125%;
+}
+.dishdescription {
+  margin: 10px;
+}
+.dishname {
+	font-weight: bold;
+	color:#093748;
+	margin-bottom: 5px;
+}
+.soup {
+	background-color:#E5A598;
+}
+.salad {
+	background-color:#C53F24;
+	color:white;
+}
+.pasta {
+	background-color:#F5E5B6;
+}
+
+
