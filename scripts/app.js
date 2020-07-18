@@ -59,15 +59,16 @@ function FoundItemsDirectiveLink(scope, element, attrs, controller) {
 
   function displayCookieWarning() {
     // Using Angluar jqLite
-    var warningElem = element.find("div.error");
-    console.log(warningElem);
+    var warningElemParent = element.find("showError");
+    var warningElem = warningElemParent.find("div");
     warningElem.css('display', 'block');
   }
 
 
   function removeCookieWarning() {
     // Using Angluar jqLite
-    var warningElem = element.find("div.error");
+    var warningElemParent = element.find("showError");
+    var warningElem = warningElemParent.find("div");
     warningElem.css('display', 'none');
   }
 }
