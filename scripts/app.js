@@ -1,56 +1,124 @@
 (function () {
 'use strict';
 
-angular.module('ShoppingListApp', [])
-.controller('ToBuyController', ToBuyController )
-.controller('AlreadyBoughtController', AlreadyBoughtController )
-.service('ShoppingListCheckOffService', ShoppingListCheckOffService);
+angular.module('NarrowItDownApp', [])
+.controller('NarrowItDownController', NarrowItDownController )
+.directive('foundItems', FoundItemsDirective)
+.service('MenuSearchService', MenuSearchService);
 
-var defaultItems = [
-	{name:"Cookies", quantity:"5"},
-	{name:"Pineapple", quantity:"1"},
-	{name:"Scones", quantity:"3"},
-	{name:"Apples", quantity:"5"},
-	{name:"Eggs", quantity:"6"},
-	{name:"Tomatos", quantity:"4"}
-	];
-// ToBuyController
-ToBuyController.$inject = ['ShoppingListCheckOffService'];
-function ToBuyController (ShoppingListCheckOffService) {
-	var toBuyList = this;
-  	toBuyList.items = ShoppingListCheckOffService.getItemsToBuy();
-	toBuyList.buyItem = function (itemIndex) {
-	    ShoppingListCheckOffService.buyItem(itemIndex);
-	};
-  
+
+
+NarrowItDownController.$inject = ['$scope','MenuSearchService'];
+function NarrowItDownController ($scope,MenuSearchService) {
+	var narrowItDownList = this;
+ 
+  narrowItDownList.getMatchedMenuItems = function () {
+        var promise = MenuSearchService.getMatchedMenuItems($scope.searchTerm);
+        promise.then(function (response) {
+            narrowItDownList.found =  response;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      
+  };
+
+
+  narrowItDownList.removeItem = function (itemIndex) {
+    console.log("'this' is: ", this);
+    narrowItDownList.found.splice(itemIndex, 1);
+  };
+
+}
+function FoundItemsDirective() {
+  var ddo = {
+    templateUrl: 'menuList.html',
+    scope: {
+      found: '<',
+      onRemove: '&'
+    }
+    ,
+    controller: FoundItemsDirectiveController,
+    controllerAs: 'list',
+    bindToController: true,
+    link: FoundItemsDirectiveLink
+  };
+
+  return ddo;
+}
+function FoundItemsDirectiveLink(scope, element, attrs, controller) {
+  scope.$watch('list.hasResult()', function (newValue, oldValue) {
+    if ( newValue ){
+        removeCookieWarning();
+    }
+    else {
+        displayCookieWarning();
+    }
+
+  });
+
+  function displayCookieWarning() {
+    // Using Angluar jqLite
+    var warningElem = element.find("div.error");
+    console.log(warningElem);
+    warningElem.css('display', 'block');
+  }
+
+
+  function removeCookieWarning() {
+    // Using Angluar jqLite
+    var warningElem = element.find("div.error");
+    warningElem.css('display', 'none');
+  }
 }
 
-// AlreadyBoughtController
-AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
-function AlreadyBoughtController (ShoppingListCheckOffService) {
-	var boughtList = this;
-  	boughtList.items = ShoppingListCheckOffService.getItemsBought();
-  
+function FoundItemsDirectiveController() {
+  var list = this;
+
+  list.hasResult = function () {
+    if (list.found == undefined) {
+       return true;
+    }
+    if (list.found && list.found.length>0) {
+       return true;
+    } 
+    return false;
+  };
 }
-function ShoppingListCheckOffService() {
+
+MenuSearchService.$inject = ['$q','$http'];
+function MenuSearchService($q,$http) {
   var service = this;
+  
+  service.getMatchedMenuItems = function (searchTerm) {
 
-  var itemsToBuy = defaultItems
+    var deferred = $q.defer();
 
-  var itemsBought = [];
+    $http({
+      method: "GET",
+      url: "https://davids-restaurant.herokuapp.com/menu_items.json"
+      }).then(function (response) {
+        var foundItems = [];
 
-  service.buyItem = function (itemIndex) {
-  	var itemPicked = itemsToBuy[itemIndex];
-  	itemsToBuy.splice(itemIndex, 1);
-  	itemsBought.push (itemPicked);
+        if (searchTerm != undefined && searchTerm.trim().length>0) {
+          var allItems = response.data.menu_items;
+          var x;
+          for (x in allItems) {
+            if (allItems[x].description.toLowerCase().includes(searchTerm.toLowerCase())) {
+              foundItems.push(allItems[x]);
+            }
+          }
+        }
+        deferred.resolve(foundItems); 
+    })
+    .catch(function (error) {
+      console.log(error);
+      deferred.reject(err);
+    })
+    return deferred.promise;
   };
-  service.getItemsToBuy = function () {
-    return itemsToBuy;
-  };
-  service.getItemsBought = function () {
-    return itemsBought;
-  };
+
 }
-
 
 })();
+
