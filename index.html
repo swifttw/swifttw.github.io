@@ -1,31 +1,35 @@
-<!doctype html>
-<html lang="en" ng-app='NarrowItDownApp'>
+<!DOCTYPE html>
+<html ng-app='MenuApp'>
   <head>
-    <title>Narrow Down Your Menu Choice</title>
-    <script src="scripts/angular.min.js"></script>
-    <script src="scripts/app.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/styles.css">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Menu</title>
   </head>
-<body>
+  <body>
+    <h1>Welcome to our Restaurant!</h1>
+
+    <ui-view></ui-view>
+
+    <!-- Libraries -->
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-ui-router.min.js"></script>
+
+    <!-- Modules -->
+    <script src="src/menuApp/data.module.js"></script>
+    <script src="src/menuApp/menuapp.module.js"></script>
 
 
-   <div class="container" ng-controller='NarrowItDownController as narrowItDownList'>
-      <h1>Narrow Down Your Chinese Menu Choice</h1>
+    <!-- Routes -->
+    <script src="src/routes.js"></script>
 
-      <div class="form-group">
-        <input type="text" placeholder="search term" class="form-control" ng-model="searchTerm">
-      </div>
-      <div class="form-group narrow-button">
-        <button class="btn btn-primary" ng-click="narrowItDownList.getMatchedMenuItems()" >Narrow It Down For Me!</button>
-      </div>
+    <!-- 'menuapp' module artifacts -->
+    <script src="src/menuApp/categories.component.js"></script>
+    <script src="src/menuApp/categories.controller.js"></script>
+    <script src="src/menuApp/menudata.service.js"></script>
 
-    <!-- found-items should be implemented as a component -->
-    <found-items found="narrowItDownList.found" on-remove="narrowItDownList.removeItem(index)" ></found-items>
-    </div>
- 
+    <script src="src/menuApp/items.component.js"></script>
+    <script src="src/menuApp/items.controller.js"></script>
 
 
-</body>
+  </body>
 </html>
