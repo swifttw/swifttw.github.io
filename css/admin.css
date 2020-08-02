@@ -1,0 +1,43 @@
+input {
+  font-size: 24px;
+  margin-bottom: 10px;
+  background-color: black;
+}
+button {
+  font-size: 24px;
+}
+
+.ng-touched.ng-valid {
+  border: 2px green solid;
+}
+
+.ng-touched.ng-invalid {
+  border: 2px red solid;
+}
+
+#info {
+  margin-top: 20px;
+}
+
+#signup {
+margin: auto;
+  width: 50%;
+  border: 3px solid #f6b319;
+  padding: 10px;
+}
+
+/*form button{
+	border: 3px solid #f6b319;
+	margin:50px;
+	background-color: white;
+}*/
+form  button:disabled {
+    color:white;
+    opacity: 50%;
+}
+form  button:enabled {
+    color:white;
+    opacity: 100%;
+    background-color: #006400;
+}
+

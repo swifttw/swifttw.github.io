@@ -1,0 +1,13 @@
+#myinfo {
+	margin: auto;
+  	width: 50%;
+  	border: 3px solid #f6b319;
+  	padding: 10px;
+  	font-size: 1.5em;
+}
+#info {
+	font-size: 1.2em;
+}
+#signuplink {
+	color:#f6b319;
+}

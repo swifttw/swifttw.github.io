@@ -1,0 +1,16 @@
+<div id = "myinfo" ng-controller="MyInfoController as info">
+  <h1>Registration Information</h1>
+	 <div ng-if="!info.available()">
+	   Not Signed Up Yet. 
+	   <a ui-sref="signup">
+      <span id=signuplink>Sign up Now!</span></a>
+    </div>
+    
+	 <div id="info" ng-if="info.available()">
+		    <h1>Hello  {{ info.registration.firstname}} {{ info.registration.lastname}} ! </h1>
+      	Email: {{ info.registration.email}} <br>
+      	Phone: {{ info.registration.phone }} <br>
+      	Your favoriate: {{info.registration.favorite.description }} <br>
+      	<img width="200" height="200" ng-src="images/menu/{{ info.registration.favorite.category_short_name}}/{{ info.registration.favorite.category_short_name}}.jpg" alt="{{info.registration.favorite.category_short_name}}">
+  </div>
+</div>
